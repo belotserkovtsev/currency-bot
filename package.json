@@ -1,0 +1,12 @@
+{
+  "name": "currency",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "run": "node app.js"
+  },
+  "keywords": [],
+  "author": "belotserkovtsev",
+  "license": "ISC",
+  "description": ""
+}
