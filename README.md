@@ -10,7 +10,7 @@ Bot is able to:
 - Log all user actions and errors
 - Find banks and choose best rates in more than 35 cities
 - Be easily scaled and improved
-![](https://i.imgur.com/1GuB6GB.png)
+![](https://i.imgur.com/4qfNb1N.png)
 
 
 ## 💻 Installation
