@@ -1,0 +1,270 @@
+{
+  "cities": [
+    {
+      "city": "Санкт-Петербург",
+      "request": "sankt-peterburg",
+      "keys": [
+        "спб",
+        "питер",
+        "санкт-петербург",
+        "петербург"
+      ]
+    },
+    {
+      "city": "Москва",
+      "request": "moskva",
+      "keys": [
+        "москв",
+        "москов",
+        "дс",
+        "мск"
+      ]
+    },
+    {
+      "city": "Новосибирск",
+      "request": "novosibirsk",
+      "keys": [
+        "новосибирск",
+        "новосиб"
+      ]
+    },
+    {
+      "city": "Екатеринбург",
+      "request": "ekaterinburg",
+      "keys": [
+        "екатеринбург",
+        "екб"
+      ]
+    },
+    {
+      "city": "Нижний Новгород",
+      "request": "nizhniy_novgorod",
+      "keys": [
+        "нижний",
+        "нижнем",
+        "новгород"
+      ]
+    },
+    {
+      "city": "Казань",
+      "request": "kazan~",
+      "keys": [
+        "казан"
+      ]
+    },
+    {
+      "city": "Челябинск",
+      "request": "chelyabinsk",
+      "keys": [
+        "челяб"
+      ]
+    },
+    {
+      "city": "Самара",
+      "request": "samara",
+      "keys": [
+        "самар"
+      ]
+    },
+    {
+      "city": "Ростов-на-Дону",
+      "request": "rostov-na-donu",
+      "keys": [
+        "ростов-на-дону",
+        "ростове-на-дону",
+        "рнд"
+      ]
+    },
+    {
+      "city": "Уфа",
+      "request": "ufa",
+      "keys": [
+        "Уф"
+      ]
+    },
+    {
+      "city": "Красноярск",
+      "request": "krasnoyarsk",
+      "keys": [
+        "красноярск"
+      ]
+    },
+    {
+      "city": "Воронеж",
+      "request": "voronezh",
+      "keys": [
+        "воронеж"
+      ]
+    },
+    {
+      "city": "Пермь",
+      "request": "perm~",
+      "keys": [
+        "перм"
+      ]
+    },
+    {
+      "city": "Волгоград",
+      "request": "volgograd",
+      "keys": [
+        "волгоград"
+      ]
+    },
+    {
+      "city": "Краснодар",
+      "request": "krasnodar",
+      "keys": [
+        "кнд",
+        "краснодар"
+      ]
+    },
+    {
+      "city": "Саратов",
+      "request": "saratov",
+      "keys": [
+        "саратов"
+      ]
+    },
+    {
+      "city": "Тюмень",
+      "request": "tyumen~",
+      "keys": [
+        "тюмен"
+      ]
+    },
+    {
+      "city": "Тольятти",
+      "request": "tol~yatti",
+      "keys": [
+        "тольятт"
+      ]
+    },
+    {
+      "city": "Ижевск",
+      "request": "izhevsk",
+      "keys": [
+        "ижевск"
+      ]
+    },
+    {
+      "city": "Барнаул",
+      "request": "barnaul",
+      "keys": [
+        "барнаул"
+      ]
+    },
+    {
+      "city": "Ульяновск",
+      "request": "ul~yanovsk",
+      "keys": [
+        "ульяновск"
+      ]
+    },
+    {
+      "city": "Иркутск",
+      "request": "irkutsk",
+      "keys": [
+        "иркутск"
+      ]
+    },
+    {
+      "city": "Хабаровск",
+      "request": "habarovsk",
+      "keys": [
+        "хабаровск"
+      ]
+    },
+    {
+      "city": "Ярославль",
+      "request": "yaroslavl~",
+      "keys": [
+        "ярославл"
+      ]
+    },
+    {
+      "city": "Владивосток",
+      "request": "vladivostok",
+      "keys": [
+        "владивосток",
+        "владик"
+      ]
+    },
+    {
+      "city": "Махачкала",
+      "request": "mahachkala",
+      "keys": [
+        "махачкал"
+      ]
+    },
+    {
+      "city": "Томск",
+      "request": "tomsk",
+      "keys": [
+        "томск"
+      ]
+    },
+    {
+      "city": "Оренбург",
+      "request": "orenburg",
+      "keys": [
+        "оренбург"
+      ]
+    },
+    {
+      "city": "Кемерово",
+      "request": "kemerovo",
+      "keys": [
+        "кемеров"
+      ]
+    },
+    {
+      "city": "Новокузнецк",
+      "request": "kemerovskaya_oblast~/novokuznetssk",
+      "keys": [
+        "новокузнецк"
+      ]
+    },
+    {
+      "city": "Рязань",
+      "request": "ryazan~",
+      "keys": [
+        "рязан"
+      ]
+    },
+    {
+      "city": "Астрахань",
+      "request": "astrahan~",
+      "keys": [
+        "астрахан"
+      ]
+    },
+    {
+      "city": "Пенза",
+      "request": "penza",
+      "keys": [
+        "пенз"
+      ]
+    },
+    {
+      "city": "Киров",
+      "request": "kirov",
+      "keys": [
+        "киров"
+      ]
+    },
+    {
+      "city": "Липецк",
+      "request": "lipetssk",
+      "keys": [
+        "липецк"
+      ]
+    },
+    {
+      "city": "Чебоксары",
+      "request": "cheboksaryi",
+      "keys": [
+        "чебоксар"
+      ]
+    }
+  ]
+}
