@@ -10,7 +10,7 @@ Bot is able to:
 - Log all user actions and errors
 - Find banks and choose best rates in more than 35 cities
 - Be easily scaled and improved
-![](https://i.imgur.com/4qfNb1N.png)
+![](https://i.imgur.com/1GuB6GB.png)
 
 
 ## 💻 Installation
@@ -32,10 +32,10 @@ Insert your bot token into <b>package.json</b> to <b>npm run app</b>:
 ```
 Or right into app.js:
 ```js
-const bot = new Telegraf(process.env.TOKEN);
+const bot = new Telegraf('token');
 ```
 
-Launch your application with <b>pm2</b> <b>node</b> or <b>npm</b>
+Launch your application with <b>pm2</b>, <b>node</b> or <b>npm</b>
 
 ```bash
 node index.js
