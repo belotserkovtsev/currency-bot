@@ -7,14 +7,17 @@ class Parser {
     static postRequest(postFields){
         return new Promise((resolve, reject) =>{
             const postCurl = new Curl();
-            postCurl.setOpt('URL', 'https://www.banki.ru/products/currency/exchange/search/');
+            postCurl.setOpt('URL',
+                'https://www.banki.ru/products/currency/exchange/search/');
             postCurl.setOpt('FOLLOWLOCATION', true);
             postCurl.setOpt('COOKIEFILE', `${__basedir}/cookie`);
             postCurl.setOpt('COOKIEJAR', `${__basedir}/cookie`);
             // postCurl.setOpt('HEADER', true);
             postCurl.setOpt('SSL_VERIFYHOST', false);
             postCurl.setOpt('SSL_VERIFYPEER', false);
-            postCurl.setOpt('USERAGENT', `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36`);
+            postCurl.setOpt('USERAGENT',
+                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 ' +
+                '(KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36');
             // postCurl.setOpt('POST', true);
             postCurl.setOpt('POSTFIELDS', postFields);
             postCurl.setOpt('HTTPHEADER', [

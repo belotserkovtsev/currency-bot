@@ -97,7 +97,7 @@ class Descriptor {
                 for(let i = 0; i < this.currencies.length; i++){
                     for(let j = 0; j < this.currencies[i].keys.length; j++){
                         for (let k = 0; k < words.length; k++){
-                            if(this.currencies[i].keys[j].toLowerCase() === words[k]){
+                            if(this.currencies[i].keys[j] === words[k].toLowerCase()){
                                 resolve(this.currencies[i]);
                                 break loop;
                             }

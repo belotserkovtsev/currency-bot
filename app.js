@@ -1,4 +1,5 @@
 const Telegraf = require('telegraf');
+const Extra = require('telegraf/extra')
 const AsyncLock = require('async-lock');
 global.__basedir = __dirname;
 global.__lock = new AsyncLock();
@@ -7,13 +8,18 @@ const Parser = require('./models/parser');
 
 const bot = new Telegraf(process.env.TOKEN);
 
+bot.telegram.getMe().then((botInfo) => {
+    bot.options.username = botInfo.username
+});
+
 /* On /start event handler */
 bot.start(ctx => {
     // ctx.scene.enter('start');
-    ctx.reply('Добро пожаловать в бота!');
+    ctx.replyWithHTML('🤖 <b>Добро пожаловать в Bank Tracker!</b> Напиши мне какую валюту ты хочешь и где. ' +
+        'Например: "<b>хочу баксы в спб</b>"');
 });
 
-bot.on('message', ctx => {
+bot.on('text', ctx => {
     let message = ctx.message.text;
     let city = null;
     let currency = null;
@@ -31,13 +37,33 @@ bot.on('message', ctx => {
                     res[i].buy + ', \n💶 Продажа: ' + res[i].sell + '\n\n'
             }
             replyBody ?
-                ctx.replyWithHTML(replyHeader + replyBody) :
-                ctx.replyWithHTML(`☹️ В городе ${city} <b>не обменивают ${currency}</b>`);
+                ctx.chat.type !== 'private' ?
+                    ctx.replyWithHTML(replyHeader + replyBody, Extra.inReplyTo(ctx.message.message_id)) :
+                    ctx.replyWithHTML(replyHeader + replyBody) :
+                ctx.chat.type !== 'private' ?
+                    ctx.replyWithHTML(`☹️ В городе ${city} <b>не обменивают ${currency}</b>`,
+                        Extra.inReplyTo(ctx.message.message_id)) :
+                    ctx.replyWithHTML(`☹️ В городе ${city} <b>не обменивают ${currency}</b>`);
 
         })
         .catch(err => {
-            ctx.reply(err);
+            if(ctx.chat.type === 'private')
+                ctx.reply(err);
         })
+});
+
+bot.on('message', ctx => {
+    if(ctx.chat.type === 'private'){
+        ctx.replyWithHTML('🔮 <b>Запускаю нейронную сеть</b>, приступаю к расшифровке...')
+            .then(res => {
+                setTimeout(() => {
+                    return ctx.replyWithHTML('😄 Шучу. <b>Пожалуйста, отправь текст</b>');
+                }, 3000)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 })
 
 bot.launch()
