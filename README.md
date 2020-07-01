@@ -1,36 +1,41 @@
-# 🚀 Currency-bot
+# 👻 Currency-bot
 
 <b>Currency bot is a telegram bot which makes currency exchange easier.</b> 
 
+## 📟 Features
+
+Bot is able to:
+
+- Descript natural speech
+- Log all user actions and errors
+- Find banks and choose best rates in more than 35 cities
+- Be easily scaled and improved
+![](https://i.imgur.com/4qfNb1N.png)
 
 
 ## 💻 Installation
 Download and install the latest version of [Node.js](https://nodejs.org/en/)
 
-Clone this repo, install dependencies and create some files:
+Clone this repo and install dependencies:
 ```bash
 git clone https://github.com/belotserkovtsev/currency-bot.git
 cd currency-bot
 npm install
 ```
 
-Add proxy and insert your bot token:
+Insert your bot token into <b>package.json</b> to <b>npm run app</b>:
 
-```js
-const socksAgent = new SocksAgent({
-    socksHost: "8.8.8.8",
-    socksPort: "888",
-    socksUsername: 'username', //on need
-    socksPassword: 'password' //on need
-});
+```json
+"scripts": {
+    "app": "TOKEN=yourToken node app.js"
+  }
 ```
+Or right into app.js:
 ```js
-const bot = new Telegraf('token', {
-    telegram: { agent: socksAgent }
-});
+const bot = new Telegraf(process.env.TOKEN);
 ```
 
-Launch your application with <b>pm2</b> or <b>node</b>
+Launch your application with <b>pm2</b> <b>node</b> or <b>npm</b>
 
 ```bash
 node index.js
