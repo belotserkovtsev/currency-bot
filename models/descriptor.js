@@ -1,4 +1,6 @@
 const fs = require('fs');
+const Logs = require(`${__basedir}/models/logs`);
+const Exception = require(`${__basedir}/exceptions/exception`);
 
 class Descriptor {
     static cities = JSON.parse(fs.readFileSync(`${__basedir}/dictionaries/cities.json`)).cities;
@@ -13,18 +15,40 @@ class Descriptor {
 
             this.findCurrency(message)
                 .then(res => {
+                    __lock.acquire('log', () =>{
+                        return Logs.log(1, message, res);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
+                    // Logs.log(1, message, res);
                     currency = res;
                     return this.findCity(message);
                 })
                 .then(res => {
+                    __lock.acquire('log', () =>{
+                        return Logs.log(2, message, res);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
+                    // Logs.log(2, message, res);
                     city = res;
                     return this.getPostFields(currency, city);
                 })
                 .then(res => {
+                    __lock.acquire('log', () =>{
+                        return Logs.log(3, [currency, city], res);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
+                    // Logs.log(3, [currency, city], res);
                     postFields = res;
                     resolve({city: city, currency: currency, postFields: postFields});
                 })
                 .catch(e => {
+                    // Logs.logError(e);
                     reject(e.message);
                     console.log(e.message);
                 })
@@ -61,7 +85,8 @@ class Descriptor {
                     }
                 }
             }
-            return reject(new Error('Не нашел город'));
+            return reject(new Exception(2, "Не смог получить город"));
+            // return reject(new Error('Не нашел город'));
         });
     }
 
@@ -79,7 +104,8 @@ class Descriptor {
                         }
                     }
                 }
-            return reject(new Error('Не нашел валюту'));
+            // return reject(new Error('Не нашел валюту'));
+            return reject(new Exception(1, "Не смог получить валюту"));
         });
     }
 }

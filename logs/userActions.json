@@ -1,0 +1,140 @@
+{
+  "actions": [
+    {
+      "id": 1,
+      "input": "питерские баксы",
+      "output": {
+        "currency": "USD",
+        "id": 840,
+        "keys": [
+          "доллар",
+          "доллары",
+          "бакс",
+          "долларов",
+          "баксов",
+          "баксы",
+          "зеленые",
+          "зеленых"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "input": "питерские баксы",
+      "output": {
+        "city": "Санкт-Петербург",
+        "request": "sankt-peterburg",
+        "keys": [
+          "спб",
+          "питер",
+          "санкт-петербург",
+          "петербург"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "input": [
+        {
+          "currency": "USD",
+          "id": 840,
+          "keys": [
+            "доллар",
+            "доллары",
+            "бакс",
+            "долларов",
+            "баксов",
+            "баксы",
+            "зеленые",
+            "зеленых"
+          ]
+        },
+        {
+          "city": "Санкт-Петербург",
+          "request": "sankt-peterburg",
+          "keys": [
+            "спб",
+            "питер",
+            "санкт-петербург",
+            "петербург"
+          ]
+        }
+      ],
+      "output": "region_url=sankt-peterburg&sort=buy&order=desc&amount=1000&page=1&currency=840"
+    },
+    {
+      "id": 4,
+      "input": "region_url=sankt-peterburg&sort=buy&order=desc&amount=1000&page=1&currency=840",
+      "output": 200
+    },
+    {
+      "id": 5,
+      "input": "html page",
+      "output": "12 банков"
+    },
+    {
+      "id": 1,
+      "input": "питерские евро",
+      "output": {
+        "currency": "EUR",
+        "id": 978,
+        "keys": [
+          "евро",
+          "eur",
+          "еврики",
+          "евриков"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "input": "питерские евро",
+      "output": {
+        "city": "Санкт-Петербург",
+        "request": "sankt-peterburg",
+        "keys": [
+          "спб",
+          "питер",
+          "санкт-петербург",
+          "петербург"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "input": [
+        {
+          "currency": "EUR",
+          "id": 978,
+          "keys": [
+            "евро",
+            "eur",
+            "еврики",
+            "евриков"
+          ]
+        },
+        {
+          "city": "Санкт-Петербург",
+          "request": "sankt-peterburg",
+          "keys": [
+            "спб",
+            "питер",
+            "санкт-петербург",
+            "петербург"
+          ]
+        }
+      ],
+      "output": "region_url=sankt-peterburg&sort=buy&order=desc&amount=1000&page=1&currency=978"
+    },
+    {
+      "id": 4,
+      "input": "region_url=sankt-peterburg&sort=buy&order=desc&amount=1000&page=1&currency=978",
+      "output": 200
+    },
+    {
+      "id": 5,
+      "input": "html page",
+      "output": "12 банков"
+    }
+  ]
+}

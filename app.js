@@ -1,25 +1,11 @@
 const Telegraf = require('telegraf');
-const Stage = require('telegraf/stage')
-const session = require('telegraf/session')
-const BaseScene = require('telegraf/scenes/base')
-// const SocksAgent = require('socks-proxy-agent');
-// const User = require('./models/user.js')
+const AsyncLock = require('async-lock');
 global.__basedir = __dirname;
+global.__lock = new AsyncLock();
 const Descriptor = require('./models/descriptor');
 const Parser = require('./models/parser');
 
 const bot = new Telegraf(process.env.TOKEN);
-
-/* New scene creation */
-// const start = new BaseScene('start');
-
-/* Registering scenes */
-const stage = new Stage();
-// stage.register(start);
-
-/* Making staging work, initializing session for personalized statistics */
-bot.use(session())
-bot.use(stage.middleware())
 
 /* On /start event handler */
 bot.start(ctx => {
@@ -54,6 +40,7 @@ bot.on('message', ctx => {
         })
 })
 
-bot.launch().catch(err => {
+bot.launch()
+    .catch(err => {
     console.log(err);
 })

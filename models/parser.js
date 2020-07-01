@@ -1,5 +1,7 @@
 const { Curl } = require('node-libcurl');
 const cheerio = require('cheerio');
+const Logs = require(`${__basedir}/models/logs`);
+const Exception = require(`${__basedir}/exceptions/exception`);
 
 class Parser {
     static postRequest(postFields){
@@ -30,7 +32,7 @@ class Parser {
                 if(statusCode === 200)
                     resolve({'statusCode': statusCode, 'data': data, 'headers': headers});
                 else
-                    reject(new Error('Не удалось сделать запрос к сайту. Попробуйте позже!'))
+                    reject(new Exception(3, 'Не удалось сделать запрос к сайту. Попробуйте позже!'));
                 console.log(statusCode);
                 // console.log(data);
                 postCurl.close();
@@ -45,9 +47,21 @@ class Parser {
         return new Promise((resolve, reject) => {
             this.postRequest(postFields)
                 .then(res => {
+                    __lock.acquire('log', () =>{
+                        return Logs.log(4, postFields, res.statusCode);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     return this.parseHtml(res.data);
                 })
                 .then(res => {
+                    __lock.acquire('log', () =>{
+                        return Logs.log(5, 'html page', res.length + ' банков');
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     resolve(res);
                 })
                 .catch(e => {
@@ -70,7 +84,7 @@ class Parser {
                         .attr("data-currencies-rate-buy");
                     let rateSell = $(element).find("div.table-flex__rate.font-size-large.text-nowrap:nth-child(3)")
                         .attr("data-currencies-rate-sell");
-                    console.log(bankName + ' ' + rateBuy + '; ' + rateSell);
+                    // console.log(bankName + ' ' + rateBuy + '; ' + rateSell);
                     if(existingBanks.indexOf(bankName) < 0) {
                         existingBanks.push(bankName);
                         result.push({bank: bankName, buy: rateBuy, sell: rateSell});
