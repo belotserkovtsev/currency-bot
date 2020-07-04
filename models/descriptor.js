@@ -59,13 +59,31 @@ class Descriptor {
             let currency = null;
             this.findCB(message)
                 .then(res => {
+                    __lock.acquire('log', () =>{
+                        return Logs.log(6, message, res);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     return this.findCurrency(message);
                 })
                 .then(res => {
+                    __lock.acquire('log', () =>{
+                        return Logs.log(1, message, res);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     currency = res;
                     return this.findDate(message)
                 })
                 .then(res => {
+                    __lock.acquire('log', () =>{
+                        return Logs.log(7, message, res);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     resolve({date:res, currency:currency});
                 })
                 .catch(e => {
