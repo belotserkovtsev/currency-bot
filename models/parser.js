@@ -4,6 +4,7 @@ const Logs = require(`${__basedir}/models/logs`);
 const Exception = require(`${__basedir}/exceptions/exception`);
 
 class Parser {
+    //post request to banki.ru
     static postRequest(postFields){
         return new Promise((resolve, reject) =>{
             const postCurl = new Curl();
@@ -46,6 +47,32 @@ class Parser {
         })
     }
 
+    //get request to CB
+    static getRequest(date){
+        return new Promise((resolve, reject) => {
+            const getCurl = new Curl();
+            getCurl.setOpt('URL',
+                `http://www.cbr.ru/currency_base/daily/?UniDbQuery.Posted=True&UniDbQuery.To=${date}`);
+            getCurl.setOpt('FOLLOWLOCATION', true);
+            getCurl.setOpt('COOKIEFILE', `${__basedir}/cookie`);
+            getCurl.setOpt('COOKIEJAR', `${__basedir}/cookie`);
+            getCurl.setOpt('SSL_VERIFYHOST', false);
+            getCurl.setOpt('SSL_VERIFYPEER', false);
+            //curl.setOpt('RETURNTRANSFER', true);
+            getCurl.setOpt('USERAGENT',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) ' +
+                'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36');
+
+            getCurl.on('end', function (statusCode, data, headers) {
+                getCurl.close();
+                resolve({'statusCode': statusCode, 'data': data, 'headers': headers});
+            });
+            getCurl.on('error', getCurl.close.bind(getCurl));
+
+            getCurl.perform();
+        })
+    }
+
     static getBanks(postFields){
         return new Promise((resolve, reject) => {
             this.postRequest(postFields)
@@ -69,6 +96,21 @@ class Parser {
                 })
                 .catch(e => {
                     reject(e.message);
+                })
+        })
+    }
+
+    static getRates(data){
+        return new Promise((resolve, reject) => {
+            this.getRequest(data.date)
+                .then(res => {
+                    return this.parseHtmlCB(res.data, data.currency.currency);
+                })
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(e => {
+                    reject(e);
                 })
         })
     }
@@ -99,6 +141,28 @@ class Parser {
                 reject(e.message);
             }
         })
+    }
+
+    static parseHtmlCB(page, currency){
+        return new Promise((resolve, reject) => {
+            const $ = cheerio.load(page);
+            $("div.table-wrapper > div.table > table.data > tbody")
+                .find("tr")
+                .each((index, element) => {
+                    $(element)
+                        .find("td")
+                        .each((index1, element1) => {
+                            if($(element1).text() === currency){
+                                // console.log($(element).find("td:nth-child(5)").text());
+                                return resolve($(element).find("td:nth-child(5)").text());
+                            }
+                        })
+                })
+        })
+    }
+
+    static getDataCB(element){
+
     }
 }
 

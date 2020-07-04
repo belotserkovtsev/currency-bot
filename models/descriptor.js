@@ -6,7 +6,6 @@ class Descriptor {
     static cities = JSON.parse(fs.readFileSync(`${__basedir}/dictionaries/cities.json`)).cities;
     static currencies = JSON.parse(fs.readFileSync(`${__basedir}/dictionaries/currencies.json`)).currencies;
 
-
     static decodeMessage(message){
         return new Promise((resolve, reject) => {
             let city = null;
@@ -49,8 +48,28 @@ class Descriptor {
                 })
                 .catch(e => {
                     // Logs.logError(e);
-                    reject(e.message);
-                    console.log(e.message);
+                    reject(e);
+                    console.log(e);
+                })
+        })
+    }
+
+    static decodeMessageCB(message){
+        return new Promise((resolve, reject) => {
+            let currency = null;
+            this.findCB(message)
+                .then(res => {
+                    return this.findCurrency(message);
+                })
+                .then(res => {
+                    currency = res;
+                    return this.findDate(message)
+                })
+                .then(res => {
+                    resolve({date:res, currency:currency});
+                })
+                .catch(e => {
+                    reject(e);
                 })
         })
     }
@@ -107,6 +126,32 @@ class Descriptor {
             // return reject(new Error('Не нашел валюту'));
             return reject(new Exception(1, "Не смог получить валюту"));
         });
+    }
+
+    static findDate(message){
+        return new Promise((resolve, reject) => {
+            let words = message.split(' ');
+            words.forEach(i => {
+                if(i.match(/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/)){
+                    let date = i.split('.');
+                    if(date[0] > 31 || date[1] > 12 || date[2] > 2020 || date[2] < 1992)
+                        return reject(new Exception(6, "Неверный формат даты"));
+                    resolve(i);
+                }
+            });
+            reject(new Exception(4, "Не смог получить дату"));
+        })
+    }
+
+    static findCB(message){
+        return new Promise((resolve, reject) => {
+            let words = message.split(' ');
+            words.forEach(i => {
+                if(i === 'цб')
+                    return resolve(true);
+            });
+            return reject(new Exception(5, "Не смог найти ЦБ"));
+        })
     }
 }
 

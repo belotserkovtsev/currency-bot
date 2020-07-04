@@ -3,8 +3,8 @@ const Extra = require('telegraf/extra')
 const AsyncLock = require('async-lock');
 global.__basedir = __dirname;
 global.__lock = new AsyncLock();
-const Descriptor = require('./models/descriptor');
 const Parser = require('./models/parser');
+const Descriptor = require('./models/descriptor.js');
 
 const bot = new Telegraf(process.env.TOKEN);
 
@@ -26,9 +26,11 @@ bot.start(ctx => {
 
 bot.hears('🧭Как пользоваться', ctx => {
     if(ctx.chat.type === 'private')
-        ctx.replyWithHTML('🤖 Бот умеет искать выгодные обменные пункты более чем 35 в городах России. ' +
-            'Для того, чтобы начать поиск <b>просто напишите где и какая валюта вам нужна</b>. Например:\n' +
-            '"<b>купить фунты в мск</b>" или "<b>хочу чебоксарских йен</b>"\n\n' +
+        ctx.replyWithHTML('🤖 Бот умеет искать выгодные обменные пункты более чем в 35 городах России. ' +
+            'Для того, чтобы начать поиск, <b>просто напишите где и какая валюта вам нужна</b>. Например:\n' +
+            '"<b>купить фунты в мск</b>" или "<b>хочу чебоксарских йен</b>". \n\nТак же бот умеет получть ' +
+            'курс, установленный ЦБ РФ с 97 года по сегодняшний день - для этого напишите фразу: ' +
+            '"<b>цб 20.03.2016 евро</b>" или "<b>баксы в 15.07.1999 у цб</b>"\n\n' +
             'Бота так же можно добавить в групповой чат, и он будет реагировать на сообщения пользователй ' +
             'об обмене валют');
 });
@@ -37,6 +39,32 @@ bot.hears('💣Сообщить о баге', ctx => {
     if(ctx.chat.type === 'private')
         ctx.replyWithHTML('👾 <b>Сообщи</b> @belotserkovtsev что случилось');
 });
+
+bot.on('text', (ctx, next) => {
+    let message = ctx.message.text;
+    let currency = null;
+    let date = null;
+    Descriptor.decodeMessageCB(message)
+        .then(res => {
+            currency = res.currency;
+            date = res.date;
+            return Parser.getRates(res);
+        })
+        .then(res => {
+            ctx.replyWithHTML
+            (`👻 <b>Центральный банк</b> ${date} установил курс для <b>${currency.currency}</b>:\n\n 💷 ${res}`);
+        })
+        .catch(e => {
+            console.log(e.message);
+
+            if(e.id === 5){
+                next();
+            }
+            else if(ctx.chat.type === 'private'){
+                ctx.reply(e.message);
+            }
+        })
+})
 
 bot.on('text', ctx => {
     let message = ctx.message.text;
@@ -67,7 +95,7 @@ bot.on('text', ctx => {
         })
         .catch(err => {
             if(ctx.chat.type === 'private')
-                ctx.reply(err);
+                ctx.reply(err.message);
         })
 });
 
@@ -76,7 +104,7 @@ bot.on('message', ctx => {
         ctx.replyWithHTML('🔮 <b>Запускаю нейронную сеть</b>, приступаю к расшифровке...')
             .then(res => {
                 setTimeout(() => {
-                    return ctx.replyWithHTML('😄 Шучу. <b>Пожалуйста, отправь текст</b>');
+                    return ctx.replyWithHTML('Не выходит.. <b>Пожалуйста, отправь текст</b>');
                 }, 3000)
             })
             .catch(err => {
