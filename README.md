@@ -28,7 +28,8 @@ Insert your bot token into <b>package.json</b> to <b>npm run app</b>:
 
 ```json
 "scripts": {
-    "app": "TOKEN=yourToken node app.js"
+    "app": "TOKEN=yourToken node app.js",
+    "test": "mocha"
   }
 ```
 Or right into app.js:
@@ -40,6 +41,12 @@ Launch your application with <b>pm2</b>, <b>node</b> or <b>npm</b>
 
 ```bash
 node app.js
+```
+
+Launch a set of tests by typing:
+
+```bash
+npm run test
 ```
 
 ## ⛔️ Error codes
