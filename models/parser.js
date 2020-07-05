@@ -36,7 +36,7 @@ class Parser {
                 if(statusCode === 200)
                     resolve({'statusCode': statusCode, 'data': data, 'headers': headers});
                 else
-                    reject(new Exception(3, 'Не удалось сделать запрос к сайту. Попробуйте позже!'));
+                    reject(new Exception(3, 'Не удалось сделать запрос к Банки.ру. Попробуйте позже!'));
                 console.log(statusCode);
                 // console.log(data);
                 postCurl.close();
@@ -65,7 +65,10 @@ class Parser {
 
             getCurl.on('end', function (statusCode, data, headers) {
                 getCurl.close();
-                resolve({'statusCode': statusCode, 'data': data, 'headers': headers});
+                if(statusCode === 200)
+                    resolve({'statusCode': statusCode, 'data': data, 'headers': headers});
+                else
+                    reject(new Exception(3,"Не удалось сделать запрос к ЦБ. Попробуйте позже"))
             });
             getCurl.on('error', getCurl.close.bind(getCurl));
 
@@ -95,7 +98,13 @@ class Parser {
                     resolve(res);
                 })
                 .catch(e => {
-                    reject(e.message);
+                    __lock.acquire('error', () =>{
+                        return Logs.logError(e);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
+                    reject(e);
                 })
         })
     }
@@ -122,6 +131,12 @@ class Parser {
                     resolve(res);
                 })
                 .catch(e => {
+                    __lock.acquire('error', () =>{
+                        return Logs.logError(e);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     reject(e);
                 })
         })
@@ -150,31 +165,32 @@ class Parser {
                 resolve(result);
             }
             catch (e) {
-                reject(e.message);
+                reject(e);
             }
         })
     }
 
     static parseHtmlCB(page, currency){
         return new Promise((resolve, reject) => {
-            const $ = cheerio.load(page);
-            $("div.table-wrapper > div.table > table.data > tbody")
-                .find("tr")
-                .each((index, element) => {
-                    $(element)
-                        .find("td")
-                        .each((index1, element1) => {
-                            if($(element1).text() === currency){
-                                // console.log($(element).find("td:nth-child(5)").text());
-                                return resolve($(element).find("td:nth-child(5)").text());
-                            }
-                        })
-                })
+            try{
+                const $ = cheerio.load(page);
+                $("div.table-wrapper > div.table > table.data > tbody")
+                    .find("tr")
+                    .each((index, element) => {
+                        $(element)
+                            .find("td")
+                            .each((index1, element1) => {
+                                if($(element1).text() === currency){
+                                    // console.log($(element).find("td:nth-child(5)").text());
+                                    return resolve($(element).find("td:nth-child(5)").text());
+                                }
+                            })
+                    })
+            }
+            catch (e) {
+                reject(e);
+            }
         })
-    }
-
-    static getDataCB(element){
-
     }
 }
 

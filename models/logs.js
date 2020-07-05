@@ -26,7 +26,20 @@ class Logs {
         })
     }
     static logError(err){
-
+        return new Promise((resolve, reject) => {
+            this.readErrors()
+                .then(res => {
+                    res.errors.push(err);
+                    let resString = JSON.stringify(res, null, 2);
+                    this.writeErrors(resString)
+                })
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(e => {
+                    reject(e);
+                })
+        })
     }
     static readUserActions(){
         return new Promise((resolve, reject) => {
@@ -42,6 +55,27 @@ class Logs {
     static writeUserActions(data){
         return new Promise((resolve, reject) => {
             fs.writeFile(`${__basedir}/logs/userActions.json`, data, err => {
+                if(err)
+                    reject(err);
+                resolve(true);
+            })
+        })
+    }
+
+    static readErrors(){
+        return new Promise((resolve, reject) => {
+            fs.readFile(`${__basedir}/logs/errors.json`, 'utf-8', (err, data) => {
+                if(err)
+                    reject(err);
+                let jsonData = JSON.parse(data);
+                resolve(jsonData);
+            })
+        })
+    }
+
+    static writeErrors(data){
+        return new Promise((resolve, reject) => {
+            fs.writeFile(`${__basedir}/logs/errors.json`, data, err => {
                 if(err)
                     reject(err);
                 resolve(true);

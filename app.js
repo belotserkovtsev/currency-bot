@@ -56,7 +56,6 @@ bot.on('text', (ctx, next) => {
         })
         .catch(e => {
             console.log(e.message);
-
             if(e.id === 5){
                 next();
             }

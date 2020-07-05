@@ -47,9 +47,13 @@ class Descriptor {
                     resolve({city: city, currency: currency, postFields: postFields});
                 })
                 .catch(e => {
-                    // Logs.logError(e);
+                    __lock.acquire('error', () =>{
+                        return Logs.logError(e);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     reject(e);
-                    console.log(e);
                 })
         })
     }
@@ -87,6 +91,12 @@ class Descriptor {
                     resolve({date:res, currency:currency});
                 })
                 .catch(e => {
+                    __lock.acquire('error', () =>{
+                        return Logs.logError(e);
+                    })
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     reject(e);
                 })
         })
@@ -94,8 +104,6 @@ class Descriptor {
 
     static getPostFields(currency, city){
         return new Promise((resolve, reject) => {
-            console.log(city.request);
-            console.log(currency.currency);
             let regionUrl = city.request;
             let sort = 'buy';
             let order = 'desc';
@@ -122,7 +130,7 @@ class Descriptor {
                     }
                 }
             }
-            return reject(new Exception(2, "Не смог получить город"));
+            return reject(new Exception(2, "Не смог получить город", message));
             // return reject(new Error('Не нашел город'));
         });
     }
@@ -142,7 +150,7 @@ class Descriptor {
                     }
                 }
             // return reject(new Error('Не нашел валюту'));
-            return reject(new Exception(1, "Не смог получить валюту"));
+            return reject(new Exception(1, "Не смог получить валюту", message));
         });
     }
 
@@ -153,11 +161,11 @@ class Descriptor {
                 if(i.match(/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/)){
                     let date = i.split('.');
                     if(date[0] > 31 || date[1] > 12 || date[2] > 2020 || date[2] < 1992)
-                        return reject(new Exception(6, "Неверный формат даты"));
+                        return reject(new Exception(6, "Неверный формат даты", message));
                     resolve(i);
                 }
             });
-            reject(new Exception(4, "Не смог получить дату"));
+            reject(new Exception(4, "Не смог получить дату", message));
         })
     }
 
@@ -168,7 +176,7 @@ class Descriptor {
                 if(i === 'цб')
                     return resolve(true);
             });
-            return reject(new Exception(5, "Не смог найти ЦБ"));
+            return reject(new Exception(5, "Не смог найти ЦБ", message));
         })
     }
 }
