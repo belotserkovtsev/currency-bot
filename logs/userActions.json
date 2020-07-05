@@ -2,73 +2,53 @@
   "actions": [
     {
       "id": 1,
-      "input": "но в чебоксарах фунты хрен купишь",
+      "input": "цб евро",
       "output": {
-        "currency": "GBP",
-        "id": 826,
+        "currency": "EUR",
+        "id": 978,
         "keys": [
-          "фунт",
-          "фунты",
-          "фунтов",
-          "фунтами",
-          "фунтиков",
-          "фунта",
-          "фунте",
-          "фунтом"
+          "евро",
+          "eur",
+          "еврики",
+          "евриков"
         ]
       }
     },
     {
-      "id": 2,
-      "input": "но в чебоксарах фунты хрен купишь",
+      "id": 1,
+      "input": "цб  евро  20.04.2013",
       "output": {
-        "city": "Чебоксары",
-        "request": "cheboksaryi",
+        "currency": "EUR",
+        "id": 978,
         "keys": [
-          "чебоксар"
+          "евро",
+          "eur",
+          "еврики",
+          "евриков"
         ]
       }
     },
     {
-      "id": 3,
-      "input": [
-        {
-          "currency": "GBP",
-          "id": 826,
-          "keys": [
-            "фунт",
-            "фунты",
-            "фунтов",
-            "фунтами",
-            "фунтиков",
-            "фунта",
-            "фунте",
-            "фунтом"
-          ]
-        },
-        {
-          "city": "Чебоксары",
-          "request": "cheboksaryi",
-          "keys": [
-            "чебоксар"
-          ]
-        }
-      ],
-      "output": "region_url=cheboksaryi&sort=buy&order=desc&amount=1000&page=1&currency=826"
+      "id": 7,
+      "input": "цб  евро  20.04.2013",
+      "output": "20.04.2013"
     },
     {
-      "id": 4,
-      "input": "region_url=cheboksaryi&sort=buy&order=desc&amount=1000&page=1&currency=826",
+      "id": 8,
+      "input": "20.04.2013",
       "output": 200
     },
     {
       "id": 5,
-      "input": "html page",
-      "output": "0 банков"
+      "input": [
+        "html",
+        "EUR"
+      ],
+      "output": "41,1157"
     },
     {
       "id": 1,
-      "input": "зато купить баксов в спб теперь можно без смс и регистрации",
+      "input": "питерский доллар",
       "output": {
         "currency": "USD",
         "id": 840,
@@ -86,7 +66,7 @@
     },
     {
       "id": 2,
-      "input": "зато купить баксов в спб теперь можно без смс и регистрации",
+      "input": "питерский доллар",
       "output": {
         "city": "Санкт-Петербург",
         "request": "sankt-peterburg",
@@ -136,211 +116,7 @@
     {
       "id": 5,
       "input": "html page",
-      "output": "12 банков"
-    },
-    {
-      "id": 1,
-      "input": "зато купить баксов в спб теперь можно без смс и регистрации",
-      "output": {
-        "currency": "USD",
-        "id": 840,
-        "keys": [
-          "доллар",
-          "доллары",
-          "бакс",
-          "долларов",
-          "баксов",
-          "баксы",
-          "зеленые",
-          "зеленых"
-        ]
-      }
-    },
-    {
-      "id": 2,
-      "input": "зато купить баксов в спб теперь можно без смс и регистрации",
-      "output": {
-        "city": "Санкт-Петербург",
-        "request": "sankt-peterburg",
-        "keys": [
-          "спб",
-          "питер",
-          "санкт-петербург",
-          "петербург"
-        ]
-      }
-    },
-    {
-      "id": 3,
-      "input": [
-        {
-          "currency": "USD",
-          "id": 840,
-          "keys": [
-            "доллар",
-            "доллары",
-            "бакс",
-            "долларов",
-            "баксов",
-            "баксы",
-            "зеленые",
-            "зеленых"
-          ]
-        },
-        {
-          "city": "Санкт-Петербург",
-          "request": "sankt-peterburg",
-          "keys": [
-            "спб",
-            "питер",
-            "санкт-петербург",
-            "петербург"
-          ]
-        }
-      ],
-      "output": "region_url=sankt-peterburg&sort=buy&order=desc&amount=1000&page=1&currency=840"
-    },
-    {
-      "id": 4,
-      "input": "region_url=sankt-peterburg&sort=buy&order=desc&amount=1000&page=1&currency=840",
-      "output": 200
-    },
-    {
-      "id": 5,
-      "input": "html page",
-      "output": "12 банков"
-    },
-    {
-      "id": 1,
-      "input": "Ща бы в самаре йены купить",
-      "output": {
-        "currency": "JPY",
-        "id": 392,
-        "keys": [
-          "йена",
-          "иена",
-          "йены",
-          "иены",
-          "йен",
-          "иен",
-          "йене",
-          "иене"
-        ]
-      }
-    },
-    {
-      "id": 2,
-      "input": "Ща бы в самаре йены купить",
-      "output": {
-        "city": "Самара",
-        "request": "samara",
-        "keys": [
-          "самар"
-        ]
-      }
-    },
-    {
-      "id": 3,
-      "input": [
-        {
-          "currency": "JPY",
-          "id": 392,
-          "keys": [
-            "йена",
-            "иена",
-            "йены",
-            "иены",
-            "йен",
-            "иен",
-            "йене",
-            "иене"
-          ]
-        },
-        {
-          "city": "Самара",
-          "request": "samara",
-          "keys": [
-            "самар"
-          ]
-        }
-      ],
-      "output": "region_url=samara&sort=buy&order=desc&amount=1000&page=1&currency=392"
-    },
-    {
-      "id": 4,
-      "input": "region_url=samara&sort=buy&order=desc&amount=1000&page=1&currency=392",
-      "output": 200
-    },
-    {
-      "id": 5,
-      "input": "html page",
-      "output": "0 банков"
-    },
-    {
-      "id": 1,
-      "input": "зато фунты в чебоксарах должны быть",
-      "output": {
-        "currency": "GBP",
-        "id": 826,
-        "keys": [
-          "фунт",
-          "фунты",
-          "фунтов",
-          "фунтами",
-          "фунтиков",
-          "фунта",
-          "фунте",
-          "фунтом"
-        ]
-      }
-    },
-    {
-      "id": 2,
-      "input": "зато фунты в чебоксарах должны быть",
-      "output": {
-        "city": "Чебоксары",
-        "request": "cheboksaryi",
-        "keys": [
-          "чебоксар"
-        ]
-      }
-    },
-    {
-      "id": 3,
-      "input": [
-        {
-          "currency": "GBP",
-          "id": 826,
-          "keys": [
-            "фунт",
-            "фунты",
-            "фунтов",
-            "фунтами",
-            "фунтиков",
-            "фунта",
-            "фунте",
-            "фунтом"
-          ]
-        },
-        {
-          "city": "Чебоксары",
-          "request": "cheboksaryi",
-          "keys": [
-            "чебоксар"
-          ]
-        }
-      ],
-      "output": "region_url=cheboksaryi&sort=buy&order=desc&amount=1000&page=1&currency=826"
-    },
-    {
-      "id": 4,
-      "input": "region_url=cheboksaryi&sort=buy&order=desc&amount=1000&page=1&currency=826",
-      "output": 200
-    },
-    {
-      "id": 5,
-      "input": "html page",
-      "output": "0 банков"
+      "output": "13 банков"
     }
   ]
 }

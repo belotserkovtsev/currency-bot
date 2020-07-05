@@ -61,44 +61,42 @@ class Descriptor {
     static decodeMessageCB(message){
         return new Promise((resolve, reject) => {
             let currency = null;
-            this.findCB(message)
-                .then(res => {
-                    __lock.acquire('log', () =>{
-                        return Logs.log(6, message, res);
-                    })
-                        .catch(err => {
-                            console.log(err.message);
+            if(message.toLowerCase().split(' ').
+            find((element, index, array) => {return element === 'цб';})){
+                this.findCurrency(message)
+                    .then(res => {
+                        __lock.acquire('log', () =>{
+                            return Logs.log(1, message, res);
                         })
-                    return this.findCurrency(message);
-                })
-                .then(res => {
-                    __lock.acquire('log', () =>{
-                        return Logs.log(1, message, res);
+                            .catch(err => {
+                                console.log(err.message);
+                            })
+                        currency = res;
+                        return this.findDate(message)
                     })
-                        .catch(err => {
-                            console.log(err.message);
+                    .then(res => {
+                        __lock.acquire('log', () =>{
+                            return Logs.log(7, message, res);
                         })
-                    currency = res;
-                    return this.findDate(message)
-                })
-                .then(res => {
-                    __lock.acquire('log', () =>{
-                        return Logs.log(7, message, res);
+                            .catch(err => {
+                                console.log(err.message);
+                            })
+                        resolve({date:res, currency:currency});
                     })
-                        .catch(err => {
-                            console.log(err.message);
+                    .catch(e => {
+                        __lock.acquire('error', () =>{
+                            return Logs.logError(e);
                         })
-                    resolve({date:res, currency:currency});
-                })
-                .catch(e => {
-                    __lock.acquire('error', () =>{
-                        return Logs.logError(e);
+                            .catch(err => {
+                                console.log(err.message);
+                            })
+                        reject(e);
                     })
-                        .catch(err => {
-                            console.log(err.message);
-                        })
-                    reject(e);
-                })
+            }
+            else{
+                reject(new Exception(5, "Не смог найти ЦБ"));
+            }
+
         })
     }
 
@@ -167,17 +165,6 @@ class Descriptor {
                 }
             });
             reject(new Exception(4, "Не смог получить дату", message));
-        })
-    }
-
-    static findCB(message){
-        return new Promise((resolve, reject) => {
-            let words = message.split(' ');
-            words.forEach(i => {
-                if(i.toLowerCase() === 'цб')
-                    return resolve(true);
-            });
-            return reject(new Exception(5, "Не смог найти ЦБ", message));
         })
     }
 }
