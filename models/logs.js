@@ -31,7 +31,7 @@ class Logs {
                 .then(res => {
                     res.errors.push(err);
                     let resString = JSON.stringify(res, null, 2);
-                    this.writeErrors(resString)
+                    return this.writeErrors(resString)
                 })
                 .then(res => {
                     resolve(res);

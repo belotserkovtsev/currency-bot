@@ -112,6 +112,7 @@ class Descriptor {
             let cur = currency.id;
             let postField = `region_url=${regionUrl}&sort=${sort}&order=${order}&amount=${amount}` +
                 `&page=${page}&currency=${cur}`;
+            // console.log(postField);
             return resolve(postField);
         })
     }

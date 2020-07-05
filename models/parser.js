@@ -37,7 +37,7 @@ class Parser {
                     resolve({'statusCode': statusCode, 'data': data, 'headers': headers});
                 else
                     reject(new Exception(3, 'Не удалось сделать запрос к Банки.ру. Попробуйте позже!'));
-                console.log(statusCode);
+                // console.log(statusCode);
                 // console.log(data);
                 postCurl.close();
             });

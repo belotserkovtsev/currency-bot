@@ -19,11 +19,13 @@ bot.start(async ctx => {
     // ctx.scene.enter('start');
     try{
         ctx.chat.type === 'private' ?
-            await ctx.replyWithHTML('🤖 <b>Добро пожаловать в Bank Tracker!</b> Напиши мне какую валюту ты хочешь и где. ' +
+            await ctx.replyWithHTML('🤖 <b>Добро пожаловать в Bank Tracker!</b> ' +
+                'Напиши мне какую валюту ты хочешь и где. ' +
                 'Например: "<b>хочу баксы в спб</b>"',
                 Telegraf.Markup.keyboard([['🧭Как пользоваться', '💣Сообщить о баге']]).
                 oneTime().resize().extra()) :
-            await ctx.replyWithHTML('🤖 <b>Добро пожаловать в Bank Tracker!</b> Напиши мне какую валюту ты хочешь и где. ' +
+            await ctx.replyWithHTML('🤖 <b>Добро пожаловать в Bank Tracker!</b> ' +
+                'Напиши мне какую валюту ты хочешь и где. ' +
                 'Например: "<b>хочу баксы в спб</b>"');
     }
     catch (e) {
@@ -80,17 +82,23 @@ bot.on('text', (ctx, next) => {
             date = res.date;
             return Parser.getRates(res);
         })
-        .then(res => {
-            ctx.replyWithHTML
-            (`👻 <b>Центральный банк</b> ${date} установил курс для <b>${currency.currency}</b>:\n\n 💷 ${res}`)
-                .catch(e => {
-                    __lock.acquire('error', () =>{
-                        return Logs.logError(new Exception(7, e.message));
-                    })
-                        .catch(err => {
-                            console.log(err.message);
-                        })
+        .then(async res => {
+            try {
+                ctx.chat.type === 'private' ?
+                    await ctx.replyWithHTML
+                    (`👻 <b>Центральный банк</b> ${date} установил курс для <b>${currency.currency}</b>:\n\n 💷 ${res}`) :
+                    await ctx.replyWithHTML
+                    (`👻 <b>Центральный банк</b> ${date} установил курс для <b>${currency.currency}</b>:\n\n 💷 ${res}`,
+                        Extra.inReplyTo(ctx.message.message_id));
+            }
+            catch(e){
+                __lock.acquire('error', () =>{
+                    return Logs.logError(new Exception(7, e.message));
                 })
+                    .catch(err => {
+                        console.log(err.message);
+                    })
+            }
         })
         .catch(e => {
             if(e.id === 5){
