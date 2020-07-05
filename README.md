@@ -42,7 +42,7 @@ Launch your application with <b>pm2</b>, <b>node</b> or <b>npm</b>
 node app.js
 ```
 
-##Error codes
+## ⛔️ Error codes
 Could be found in ./logs/errors.json
 - Unable to get currency - <b>1</b>
 - Unable to get city - <b>2</b>
@@ -53,7 +53,7 @@ Could be found in ./logs/errors.json
 - Unable to send the message - <b>7</b>
 - Unable to launch bot - <b>8</b>
 
-##Action codes
+## ✅ Action codes
 Could be found in ./logs/userActions.json
 - Find currency - <b>1</b>
 - Find city - <b>2</b>
