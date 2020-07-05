@@ -9,6 +9,7 @@ Bot is able to:
 - Descript natural speech
 - Log all user actions and errors
 - Find banks and choose best rates in more than 35 cities
+- Function in group chats
 - Be easily scaled and improved
 ![](https://i.imgur.com/4qfNb1N.png)
 
@@ -38,7 +39,7 @@ const bot = new Telegraf('token');
 Launch your application with <b>pm2</b>, <b>node</b> or <b>npm</b>
 
 ```bash
-node index.js
+node app.js
 ```
 
 ## 📱 Contributing
