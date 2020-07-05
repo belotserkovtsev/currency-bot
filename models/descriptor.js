@@ -173,7 +173,7 @@ class Descriptor {
         return new Promise((resolve, reject) => {
             let words = message.split(' ');
             words.forEach(i => {
-                if(i === 'цб')
+                if(i.toLowerCase() === 'цб')
                     return resolve(true);
             });
             return reject(new Exception(5, "Не смог найти ЦБ", message));
