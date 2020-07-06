@@ -3,26 +3,34 @@ const fs = require('fs');
 class Logs {
     static log(actionId, input, output){
         return new Promise((resolve, reject) => {
-            this.readUserActions()
-                .then(res => {
-                    let dataToWrite = {
-                        "id": actionId,
-                        "input": input,
-                        "output": output
-                    }
-                    res.actions.push(dataToWrite);
-                    return res;
+            __lock.acquire('log', () =>{
+                return this.readUserActions()
+                    .then(res => {
+                        let dataToWrite = {
+                            "id": actionId,
+                            "input": input,
+                            "output": output
+                        }
+                        res.actions.push(dataToWrite);
+                        return res;
+                    })
+                    .then(res => {
+                        let resString = JSON.stringify(res, null, 2);
+                        return this.writeUserActions(resString);
+                    })
+                    .then(res => {
+                        console.log('done logging')
+                        resolve(res);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    })
+
+            })
+                .catch(e => {
+                    console.log(e.message);
                 })
-                .then(res => {
-                    let resString = JSON.stringify(res, null, 2);
-                    return this.writeUserActions(resString);
-                })
-                .then(res => {
-                    resolve(res);
-                })
-                .catch(err => {
-                    reject(err);
-                })
+
         })
     }
     static logError(err){

@@ -80,21 +80,11 @@ class Parser {
         return new Promise((resolve, reject) => {
             this.postRequest(postFields)
                 .then(res => {
-                    __lock.acquire('log', () =>{
-                        return Logs.log(4, postFields, res.statusCode);
-                    })
-                        .catch(err => {
-                            console.log(err.message);
-                        })
+                    Logs.log(4, postFields, res.statusCode);
                     return this.parseHtml(res.data);
                 })
                 .then(res => {
-                    __lock.acquire('log', () =>{
-                        return Logs.log(5, 'html page', res.length + ' банков');
-                    })
-                        .catch(err => {
-                            console.log(err.message);
-                        })
+                    Logs.log(5, 'html page', res.length + ' банков');
                     resolve(res);
                 })
                 .catch(e => {
@@ -113,21 +103,11 @@ class Parser {
         return new Promise((resolve, reject) => {
             this.getRequest(data.date)
                 .then(res => {
-                    __lock.acquire('log', () =>{
-                        return Logs.log(8, data.date, res.statusCode);
-                    })
-                        .catch(err => {
-                            console.log(err.message);
-                        })
+                    Logs.log(8, data.date, res.statusCode);
                     return this.parseHtmlCB(res.data, data.currency.currency);
                 })
                 .then(res => {
-                    __lock.acquire('log', () =>{
-                        return Logs.log(5, ['html', data.currency.currency], res);
-                    })
-                        .catch(err => {
-                            console.log(err.message);
-                        })
+                    Logs.log(5, ['html', data.currency.currency], res);
                     resolve(res);
                 })
                 .catch(e => {
