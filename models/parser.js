@@ -80,17 +80,21 @@ class Parser {
         return new Promise((resolve, reject) => {
             this.postRequest(postFields)
                 .then(res => {
-                    Logs.log(4, postFields, res.statusCode);
+                    Logs.log(4, postFields, res.statusCode)
+                        .catch(err => {
+                        console.log(err.message);
+                    })
                     return this.parseHtml(res.data);
                 })
                 .then(res => {
-                    Logs.log(5, 'html page', res.length + ' банков');
+                    Logs.log(5, 'html page', res.length + ' банков')
+                        .catch(err => {
+                        console.log(err.message);
+                    })
                     resolve(res);
                 })
                 .catch(e => {
-                    __lock.acquire('error', () =>{
-                        return Logs.logError(e);
-                    })
+                    Logs.logError(e)
                         .catch(err => {
                             console.log(err.message);
                         })
@@ -103,17 +107,21 @@ class Parser {
         return new Promise((resolve, reject) => {
             this.getRequest(data.date)
                 .then(res => {
-                    Logs.log(8, data.date, res.statusCode);
+                    Logs.log(8, data.date, res.statusCode)
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     return this.parseHtmlCB(res.data, data.currency.currency);
                 })
                 .then(res => {
-                    Logs.log(5, ['html', data.currency.currency], res);
+                    Logs.log(5, ['html', data.currency.currency], res)
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     resolve(res);
                 })
                 .catch(e => {
-                    __lock.acquire('error', () =>{
-                        return Logs.logError(e);
-                    })
+                    Logs.logError(e)
                         .catch(err => {
                             console.log(err.message);
                         })

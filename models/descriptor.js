@@ -14,24 +14,31 @@ class Descriptor {
 
             this.findCurrency(message)
                 .then(res => {
-                    Logs.log(1, message, res);
+                    Logs.log(1, message, res)
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     currency = res;
                     return this.findCity(message);
                 })
                 .then(res => {
-                    Logs.log(2, message, res);
+                    Logs.log(2, message, res)
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     city = res;
                     return this.getPostFields(currency, city);
                 })
                 .then(res => {
-                    Logs.log(3, [currency, city], res);
+                    Logs.log(3, [currency, city], res)
+                        .catch(err => {
+                            console.log(err.message);
+                        })
                     postFields = res;
                     resolve({city: city, currency: currency, postFields: postFields});
                 })
                 .catch(e => {
-                    __lock.acquire('error', () =>{
-                        return Logs.logError(e);
-                    })
+                    Logs.logError(e)
                         .catch(err => {
                             console.log(err.message);
                         })
@@ -47,18 +54,22 @@ class Descriptor {
             find((element, index, array) => {return element === 'цб';})){
                 this.findCurrency(message)
                     .then(res => {
-                        Logs.log(1, message, res);
+                        Logs.log(1, message, res)
+                            .catch(err => {
+                                console.log(err.message);
+                            })
                         currency = res;
                         return this.findDate(message)
                     })
                     .then(res => {
-                        Logs.log(7, message, res);
+                        Logs.log(7, message, res)
+                            .catch(err => {
+                                console.log(err.message);
+                            })
                         resolve({date:res, currency:currency});
                     })
                     .catch(e => {
-                        __lock.acquire('error', () =>{
-                            return Logs.logError(e);
-                        })
+                        Logs.logError(e)
                             .catch(err => {
                                 console.log(err.message);
                             })
