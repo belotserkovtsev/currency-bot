@@ -59,6 +59,7 @@ Could be found in ./logs/errors.json
 - Invalid date format - <b>6</b>
 - Unable to send the message - <b>7</b>
 - Unable to launch bot - <b>8</b>
+- Async-lock error - <b>9</b>
 
 ## ✅ Action codes
 Could be found in ./logs/userActions.json

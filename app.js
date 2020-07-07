@@ -29,9 +29,7 @@ bot.start(async ctx => {
                 'Например: "<b>хочу баксы в спб</b>"');
     }
     catch (e) {
-        __lock.acquire('error', () =>{
-            return Logs.logError(new Exception(7, e.message));
-        })
+        Logs.logError(new Exception(7, e.message))
             .catch(err => {
                 console.log(err.message);
             })
@@ -48,9 +46,7 @@ bot.hears('🧭Как пользоваться', ctx => {
             'Бота так же можно добавить в групповой чат, и он будет реагировать на сообщения пользователй ' +
             'об обмене валют')
             .catch(e => {
-                __lock.acquire('error', () => {
-                    return Logs.logError(new Exception(7, e.message));
-                })
+                Logs.logError(new Exception(7, e.message))
                     .catch(err => {
                         console.log(err.message);
                     })
@@ -62,9 +58,7 @@ bot.hears('💣Сообщить о баге', ctx => {
     if(ctx.chat.type === 'private') {
         ctx.replyWithHTML('👾 <b>Сообщи</b> @belotserkovtsev что случилось')
             .catch(e => {
-                __lock.acquire('error', () => {
-                    return Logs.logError(new Exception(7, e.message));
-                })
+                Logs.logError(new Exception(7, e.message))
                     .catch(err => {
                         console.log(err.message);
                     })
@@ -92,9 +86,7 @@ bot.on('text', (ctx, next) => {
                         Extra.inReplyTo(ctx.message.message_id));
             }
             catch(e){
-                __lock.acquire('error', () =>{
-                    return Logs.logError(new Exception(7, e.message));
-                })
+                Logs.logError(new Exception(7, e.message))
                     .catch(err => {
                         console.log(err.message);
                     })
@@ -107,9 +99,7 @@ bot.on('text', (ctx, next) => {
             else if(ctx.chat.type === 'private'){
                 ctx.reply(e.message)
                     .catch(e => {
-                        __lock.acquire('error', () =>{
-                            return Logs.logError(new Exception(7, e.message));
-                        })
+                        Logs.logError(new Exception(7, e.message))
                             .catch(err => {
                                 console.log(err.message);
                             })
@@ -146,9 +136,7 @@ bot.on('text', ctx => {
                         await ctx.replyWithHTML(`☹️ В городе ${city} <b>не обменивают ${currency}</b>`);
             }
             catch (e) {
-                __lock.acquire('error', () =>{
-                    return Logs.logError(new Exception(7, e.message));
-                })
+                Logs.logError(new Exception(7, e.message))
                     .catch(err => {
                         console.log(err.message);
                     })
@@ -159,9 +147,7 @@ bot.on('text', ctx => {
             if(ctx.chat.type === 'private'){
                 ctx.reply(err.message)
                     .catch(e => {
-                        __lock.acquire('error', () =>{
-                            return Logs.logError(new Exception(7, e.message));
-                        })
+                        Logs.logError(new Exception(7, e.message))
                             .catch(err => {
                                 console.log(err.message);
                             })
@@ -179,9 +165,7 @@ bot.on('message', ctx => {
                 }, 3000)
             })
             .catch(e => {
-                __lock.acquire('error', () =>{
-                    return Logs.logError(new Exception(7, e.message));
-                })
+                Logs.logError(new Exception(7, e.message))
                     .catch(err => {
                         console.log(err.message);
                     })
@@ -191,9 +175,7 @@ bot.on('message', ctx => {
 
 bot.launch()
     .catch(e => {
-        __lock.acquire('error', () =>{
-            return Logs.logError(new Exception(8, e.message));
-        })
+        Logs.logError(new Exception(7, e.message))
             .catch(err => {
                 console.log(err.message);
             })

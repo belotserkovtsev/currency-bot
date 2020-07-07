@@ -3,41 +3,53 @@ const fs = require('fs');
 class Logs {
     static log(actionId, input, output){
         return new Promise((resolve, reject) => {
-            this.readUserActions()
-                .then(res => {
-                    let dataToWrite = {
-                        "id": actionId,
-                        "input": input,
-                        "output": output
-                    }
-                    res.actions.push(dataToWrite);
-                    return res;
+            __lock.acquire('log', () =>{
+                return this.readUserActions()
+                    .then(res => {
+                        let dataToWrite = {
+                            "id": actionId,
+                            "input": input,
+                            "output": output
+                        }
+                        res.actions.push(dataToWrite);
+                        return res;
+                    })
+                    .then(res => {
+                        let resString = JSON.stringify(res, null, 2);
+                        return this.writeUserActions(resString);
+                    })
+                    .then(res => {
+                        return resolve(res);
+                    })
+                    .catch(err => {
+                        return reject(err);
+                    })
+
+            })
+                .catch(e => {
+                    return reject(new Exception(9, e.message));
                 })
-                .then(res => {
-                    let resString = JSON.stringify(res, null, 2);
-                    return this.writeUserActions(resString);
-                })
-                .then(res => {
-                    resolve(res);
-                })
-                .catch(err => {
-                    reject(err);
-                })
+
         })
     }
     static logError(err){
         return new Promise((resolve, reject) => {
-            this.readErrors()
-                .then(res => {
-                    res.errors.push(err);
-                    let resString = JSON.stringify(res, null, 2);
-                    return this.writeErrors(resString)
-                })
-                .then(res => {
-                    resolve(res);
-                })
+            __lock.acquire('log', () =>{
+                return this.readErrors()
+                    .then(res => {
+                        res.errors.push(err);
+                        let resString = JSON.stringify(res, null, 2);
+                        return this.writeErrors(resString)
+                    })
+                    .then(res => {
+                        resolve(res);
+                    })
+                    .catch(e => {
+                        reject(e);
+                    })
+            })
                 .catch(e => {
-                    reject(e);
+                    return reject(new Exception(9, e.message));
                 })
         })
     }
